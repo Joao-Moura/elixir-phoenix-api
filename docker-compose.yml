@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    restart: unless-stopped
+    volumes:
+      - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/
+      - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/
+    environment: 
+      # RABBITMQ_ERLANG_COOKIE: erlang_dev_only_cookie
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - 5672:5672
+      - 15672:15672
+    healthcheck:
+      test: ['CMD', 'rabbitmq-diagnostics', '-q', 'ping']
+      interval: 60s
+      timeout: 5s
+  phoenix:
+    restart: unless-stopped
+    build: ./test_app
+    environment: 
+      - DATABASE_URL=postgresql://postgres_elixir:postgres@postgres/postgres_elixir
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
+      - SENTRY_DSN=SIJHFIUSDHIF
+      - SECRET_KEY_BASE=TESTING
+      # se quiser alterar a porta do elixir
+      # - PORT=8000
+    depends_on: 
+      - postgres
+      - rabbitmq
+    ports: 
+      - 4000:4000
+  postgres:
+    image: postgres:13-alpine
+    restart: unless-stopped
+    volumes:
+      - ./.docker/postgres:/var/lib/postgresql/data
+    # settar direto ou usar um .env
+    environment:
+      - POSTGRES_USER=postgres_elixir
+      - POSTGRES_PASSWORD=postgres_elixit
+      - POSTGRE_DB=postgres_elixit
+    ports:
+      - 5432:5432
