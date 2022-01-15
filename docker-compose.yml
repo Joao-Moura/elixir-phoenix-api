@@ -20,12 +20,16 @@ services:
       timeout: 5s
   phoenix:
     restart: unless-stopped
-    build: ./test_app
+    build: ./cleber
     environment: 
-      - DATABASE_URL=postgresql://postgres_elixir:postgres@postgres/postgres_elixir
+      # postgresql://USER:PASSWORD@HOST/DB
+      - DATABASE_URL=postgresql://elixir_pg:elixir_pg@localhost/elixir_pg
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
-      - SENTRY_DSN=SIJHFIUSDHIF
       - SECRET_KEY_BASE=TESTING
+      - ACCESS_TOKEN_SECRET=8f51exxxxxx7211dd
+      - REFRESH_TOKEN_SECRET=dbb85xxxxxx9ebde
+      # Variável para o sentry
+      # - SENTRY_DSN=ASFACSAUN
       # se quiser alterar a porta do elixir
       # - PORT=8000
     depends_on: 
@@ -40,8 +44,8 @@ services:
       - ./.docker/postgres:/var/lib/postgresql/data
     # settar direto ou usar um .env
     environment:
-      - POSTGRES_USER=postgres_elixir
-      - POSTGRES_PASSWORD=postgres_elixit
-      - POSTGRE_DB=postgres_elixit
+      - POSTGRES_USER=elixir_pg
+      - POSTGRES_PASSWORD=elixir_pg
+      - POSTGRE_DB=elixir_pg
     ports:
       - 5432:5432

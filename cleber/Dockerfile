@@ -1,4 +1,4 @@
-FROM hexpm/elixir:1.13.2-erlang-22.1.8-alpine-3.12.0 AS build
+FROM hexpm/elixir:1.13.2-erlang-23.3.4.2-alpine-3.13.3 AS build
 
 # Dependências
 RUN apk update && \
@@ -42,9 +42,10 @@ RUN chown nobody:nobody /app
 USER nobody:nobody
 
 # Alterar o link da build para o nome atual do programa
-COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/test_app ./
+COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/cleber ./
 
 ENV HOME=/app
 
 # Executa o comando de migrate do app (alterar o nome)
-CMD bin/test_app eval "TestApp.Release.migrate" && bin/test_app start
+# CMD bin/cleber eval "Cleber.Release.migrate" && bin/cleber start
+CMD bin/cleber start
