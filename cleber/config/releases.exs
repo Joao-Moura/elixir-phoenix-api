@@ -4,9 +4,9 @@ config :logger, level: :info
 
 database_url =
   System.get_env("DATABASE_URL") ||
-    "postgres://elixir_pg:elixir_pg@localhost/elixir_pg"
+    "postgresql://elixir_pg:elixir_pg@localhost/elixir_pg"
 
-config :cleber, Cleber.Repo, url: database_url
+config :cleber, Database.Repo, url: database_url
 
 config :cleber,
   secret_key_base:

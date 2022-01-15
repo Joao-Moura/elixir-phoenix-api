@@ -1,30 +1,31 @@
 import Config
 
-# Configure your database
-#
-# The MIX_TEST_PARTITION environment variable can be used
-# to provide built-in test partitioning in CI environment.
-# Run `mix help test` for more information.
-config :cleber, Cleber.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  database: "cleber_test#{System.get_env("MIX_TEST_PARTITION")}",
-  pool: Ecto.Adapters.SQL.Sandbox,
-  pool_size: 10
+database_url =
+  System.get_env("DATABASE_URL") ||
+    "postgresql://elixir_pg:elixir_pg@localhost/elixir_pg_test"
 
-# We don't run a server during test. If one is required,
-# you can enable the server option below.
-config :cleber, CleberWeb.Endpoint,
-  http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "Qp02kUmKuDoL9WQuNlmfKp3TNxrcyTOKDYy+Z3I9RK/7kDvtxkVYKJFzrj/ceYAj",
-  server: false
+config :cleber, Database.Repo,
+  url: database_url,
+  pool: Ecto.Adapters.SQL.Sandbox
 
-# In test we don't send emails.
-config :cleber, Cleber.Mailer, adapter: Swoosh.Adapters.Test
+config :logger, level: :error
 
-# Print only warnings and errors during test
-config :logger, level: :warn
-
-# Initialize plugs at runtime for faster test compilation
-config :phoenix, :plug_init_mode, :runtime
+config :cleber,
+  secret_key_base:
+    System.get_env("SECRET_KEY_BASE") ||
+      raise("""
+      environment variable SECRET_KEY_BASE is missing.
+      """),
+  api_url: System.get_env("API_URL") || "https://cleber.teste",
+  access_token_secret:
+    System.get_env("ACCESS_TOKEN_SECRET") ||
+      raise("""
+      environment variable ACCESS_TOKEN_SECRET is missing.
+      type some random characters to create one
+      """),
+  refresh_token_secret:
+    System.get_env("REFRESH_TOKEN_SECRET") ||
+      raise("""
+      environment variable REFRESH_TOKEN_SECRET is missing.
+      type some random characters to create one
+      """)

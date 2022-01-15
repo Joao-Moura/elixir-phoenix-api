@@ -1,4 +1,4 @@
-defmodule Cleber.Repo do
+defmodule Database.Repo do
   use Ecto.Repo,
     otp_app: :cleber,
     adapter: Ecto.Adapters.Postgres

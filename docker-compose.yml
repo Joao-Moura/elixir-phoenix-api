@@ -4,9 +4,10 @@ services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
     restart: unless-stopped
-    volumes:
-      - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/
-      - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/
+    # Por algum motivo esses volumes estão sendo criados como root
+    # volumes:
+    #   - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/
+    #   - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/
     environment: 
       # RABBITMQ_ERLANG_COOKIE: erlang_dev_only_cookie
       RABBITMQ_DEFAULT_USER: guest
@@ -16,7 +17,7 @@ services:
       - 15672:15672
     healthcheck:
       test: ['CMD', 'rabbitmq-diagnostics', '-q', 'ping']
-      interval: 60s
+      interval: 10s
       timeout: 5s
   phoenix:
     restart: unless-stopped
@@ -40,8 +41,9 @@ services:
   postgres:
     image: postgres:13-alpine
     restart: unless-stopped
-    volumes:
-      - ./.docker/postgres:/var/lib/postgresql/data
+    # Esse volume foi comentado para evitar possível erro similar do rabbitmq
+    # volumes:
+    #   - ./.docker/postgres:/var/lib/postgresql/data
     # settar direto ou usar um .env
     environment:
       - POSTGRES_USER=elixir_pg
