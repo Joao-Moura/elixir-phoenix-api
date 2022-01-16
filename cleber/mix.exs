@@ -26,11 +26,11 @@ defmodule Cleber.MixProject do
 
   defp deps do
     [
-      {:amqp, "~> 2.1"},
       {:phoenix, "~> 1.6.6"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.6"},
       {:postgrex, ">= 0.0.0"},
+      {:amqp, "~> 2.1"},
       {:phoenix_live_dashboard, "~> 0.6"},
       {:swoosh, "~> 1.3"},
       {:hackney, "~> 1.9"},

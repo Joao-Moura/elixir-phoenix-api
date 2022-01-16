@@ -3,7 +3,7 @@ defmodule Cleber do
 
   def start(_type, _args) do
     children = [
-      {Database.Repo, []}
+      Database.Repo
     ]
 
     opts = [strategy: :one_for_one, name: Cleber.Supervisor]

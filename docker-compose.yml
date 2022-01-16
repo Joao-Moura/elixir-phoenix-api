@@ -17,14 +17,14 @@ services:
       - 15672:15672
     healthcheck:
       test: ['CMD', 'rabbitmq-diagnostics', '-q', 'ping']
-      interval: 10s
+      interval: 60s
       timeout: 5s
   phoenix:
     restart: unless-stopped
     build: ./cleber
     environment: 
       # postgresql://USER:PASSWORD@HOST/DB
-      - DATABASE_URL=postgresql://elixir_pg:elixir_pg@localhost/elixir_pg
+      - DATABASE_URL=postgresql://elixir_pg:elixir_pg@postgres/elixir_pg
       - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672
       - SECRET_KEY_BASE=TESTING
       - ACCESS_TOKEN_SECRET=8f51exxxxxx7211dd
