@@ -1,5 +1,6 @@
 defmodule Cleber do
   use Application
+  require Logger
 
   def start(_type, _args) do
     children = [
@@ -17,6 +18,8 @@ defmodule Cleber do
         ]
       )
     ]
+
+    Logger.info("Aplicação iniciando ...")
 
     opts = [strategy: :one_for_one, name: Cleber.Supervisor]
     Supervisor.start_link(children, opts)

@@ -47,5 +47,5 @@ COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/cleber ./
 ENV HOME=/app
 
 # Executa o comando de migrate do app (alterar o nome)
-# CMD bin/cleber eval "Cleber.Release.migrate" && bin/cleber start
-CMD bin/cleber start
+CMD bin/cleber eval "Cleber.Release.migrate" && bin/cleber start
+# CMD bin/cleber start
