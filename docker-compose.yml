@@ -22,6 +22,8 @@ services:
   phoenix:
     restart: unless-stopped
     build: ./cleber
+    volumes:
+      - ./.docker/elixir/:/_build/prod/rel/
     environment: 
       # postgresql://USER:PASSWORD@HOST/DB
       - DATABASE_URL=postgresql://elixir_pg:elixir_pg@postgres/elixir_pg

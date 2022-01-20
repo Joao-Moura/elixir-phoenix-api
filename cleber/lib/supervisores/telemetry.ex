@@ -1,6 +1,5 @@
 defmodule Supervisor.Telemetry do
   use GenServer
-  require Logger
 
   def start_link(_) do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
@@ -12,7 +11,6 @@ defmodule Supervisor.Telemetry do
   end
 
   def handle_info(:coletar_metricas, state) do
-    Logger.info("Telemetria chamada, usando logger")
     {:noreply, state}
   end
 end
